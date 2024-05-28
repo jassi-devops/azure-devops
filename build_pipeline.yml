@@ -1,0 +1,41 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - build_pipeline.yml
+    exclude:
+    - Readme.md
+
+resources:
+- repo: self
+
+variables:
+  IMAGE_NAME: nginx
+  TAG: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build and push image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: Default
+    steps:
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        repository: $(IMAGE_NAME)
+        tags: $(TAG)
+
+    - task: Docker@2
+      displayName: Push image to Docker Hub
+      inputs:
+        containerRegistry: 'harbor-connection'
+        repository: $(IMAGE_NAME)
+        command: 'push'
+        tags: '$(TAG)'
