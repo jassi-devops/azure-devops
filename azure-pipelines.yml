@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool: Default
 
@@ -52,3 +52,9 @@ stages:
     steps:
     - script: echo deploying backend app to PROD
       displayName: deploy backend app to PROD
+      
+    - task: SSH@0
+      inputs:
+        runOptions: 'inline'
+        inline: 'mkdir pipeline2'
+        readyTimeout: '20000'
