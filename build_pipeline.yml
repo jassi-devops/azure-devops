@@ -38,6 +38,6 @@ stages:
       displayName: Push image to Docker Hub
       inputs:
         containerRegistry: 'harbor-connection'
-        repository: nginx/$(IMAGE_NAME)
+        repository: :8443/nginx/$(IMAGE_NAME)
         command: 'push'
         tags: '$(TAG)'
