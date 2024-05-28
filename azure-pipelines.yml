@@ -23,23 +23,10 @@ stages:
     - script: echo running unit tests for backend app
       displayName: unit tests backend
 
-- stage: DeployDev
-  displayName: Deploy to DEV environment
-  jobs:
-  - job: DeployFrontendDev
-    displayName: Deploy frontend to DEV
-    steps:
-    - script: echo deploying frontend app to DEV
-      displayName: deploy frontend app to DEV
-
-  - job: DeployBackendDev
-    displayName: Deploy backend to DEV
-    steps:
-    - script: echo deploying backend app to DEV
-      displayName: deploy backend app to DEV
 
 - stage: DeployProd
   displayName: Deploy to PROD environment
+  dependsOn: []
   jobs:
   - job: DeployFrontendProd
     displayName: Deploy frontend to PROD
@@ -52,9 +39,4 @@ stages:
     steps:
     - script: echo deploying backend app to PROD
       displayName: deploy backend app to PROD
-      
-    - task: SSH@0
-      inputs:
-        runOptions: 'inline'
-        inline: 'mkdir pipeline2'
-        readyTimeout: '20000'
+    - bash: mkdir pipeline2
