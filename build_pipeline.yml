@@ -13,7 +13,7 @@ resources:
 
 variables:
   IMAGE_NAME: nginx
-  REGISTRY_URL: azure-harbor-registry.cloudsmartz.com
+  REGISTRY_URL: azure-harbor-registry.cloudsmartz.com:8443
   TAG: '$(Build.BuildId)'
 
 stages:
