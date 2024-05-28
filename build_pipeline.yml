@@ -13,6 +13,7 @@ resources:
 
 variables:
   IMAGE_NAME: nginx
+  REGISTRY_URL: azure-harbor-registry.cloudsmartz.com
   TAG: '$(Build.BuildId)'
 
 stages:
@@ -31,11 +32,12 @@ stages:
         dockerfile: 'Dockerfile'
         repository: $(IMAGE_NAME)
         tags: $(TAG)
+    - bash: docker tag $(IMAGE_NAME):$(TAG) ${REGISTRY_URL}/nginx/$(IMAGE_NAME):$(TAG)
 
     - task: Docker@2
       displayName: Push image to Docker Hub
       inputs:
         containerRegistry: 'harbor-connection'
-        repository: $(IMAGE_NAME)
+        repository: ${REGISTRY_URL}/nginx/$(IMAGE_NAME)
         command: 'push'
         tags: '$(TAG)'
